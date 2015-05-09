@@ -299,7 +299,7 @@ public class RecursiveNode {
 		if(laQuery.length==1)
 		{
 			
-			DatasetGraph dsgRecursive =TDBFactory.createDatasetGraph("/Users/adriansotosuarez/Desktop/Rec");
+			DatasetGraph dsgRecursive =TDBFactory.createDatasetGraph("/path/to/recursive/folder");
 			if(dsgRecursive.containsGraph(NodeFactory.createURI("http://modelo.com/recursivo")))
 			{
 				dsgRecursive.removeGraph(NodeFactory.createURI("http://modelo.com/recursivo"));
@@ -340,7 +340,7 @@ public class RecursiveNode {
 		}
 		else
 		{
-			DatasetGraph dsgRecursive =TDBFactory.createDatasetGraph("/Users/adriansotosuarez/Desktop/Rec");
+			DatasetGraph dsgRecursive =TDBFactory.createDatasetGraph("/path/to/recursive/folder");
 			if(dsgRecursive.containsGraph(NodeFactory.createURI("http://modelo.com/recursivo")))
 			{
 				dsgRecursive.removeGraph(NodeFactory.createURI("http://modelo.com/recursivo"));
@@ -431,7 +431,7 @@ public class RecursiveNode {
 		if(laQuery.length==1)
 		{
 			
-			DatasetGraph dsgRecursive =TDBFactory.createDatasetGraph("/Users/adriansotosuarez/Desktop/Rec");
+			DatasetGraph dsgRecursive =TDBFactory.createDatasetGraph("/path/to/recursive/folder");
 			if(dsgRecursive.containsGraph(NodeFactory.createURI("http://modelo.com/recursivo")))
 			{
 				dsgRecursive.removeGraph(NodeFactory.createURI("http://modelo.com/recursivo"));
@@ -477,7 +477,7 @@ public class RecursiveNode {
 		}
 		else
 		{
-			DatasetGraph dsgRecursive =TDBFactory.createDatasetGraph("/Users/adriansotosuarez/Desktop/Rec");
+			DatasetGraph dsgRecursive =TDBFactory.createDatasetGraph("/path/to/recursive/folder");
 			if(dsgRecursive.containsGraph(NodeFactory.createURI("http://modelo.com/recursivo")))
 			{
 				dsgRecursive.removeGraph(NodeFactory.createURI("http://modelo.com/recursivo"));
