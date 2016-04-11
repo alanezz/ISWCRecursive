@@ -28,9 +28,7 @@ public class ProvDiscExperiments {
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
 		
-		String directory = "/path/to/tdb/folder";
-		Model m = ModelFactory.createDefaultModel();
-		m.read("/Users/adriansotosuarez/Documents/Investigación/yagoFacts2.nt", "N-TRIPLES") ;
+		String directory = "/Users/adriansotosuarez/Desktop/TDB";
 		Dataset dataset = TDBFactory.createDataset(directory);
 
 
@@ -66,7 +64,7 @@ public class ProvDiscExperiments {
 		+ "SELECT ?z FROM NAMED <http://db.ing.puc.cl/temp> "
 		+ "WHERE {GRAPH <http://db.ing.puc.cl/temp> {<http://fact.com/Kevin_Bacon> <http://relationship.com/collab> ?z}}";
 */
-		String queryString = "WITH RECURSIVE http://db.ing.puc.cl/temp AS"
+		/*String queryString = "WITH RECURSIVE http://db.ing.puc.cl/temp AS"
 		+ "{"
 		+ "CONSTRUCT {?x <http://relationship.com/colleague> ?y} "
 		+ "FROM <"+Quad.defaultGraphIRI+"> "
@@ -90,7 +88,7 @@ public class ProvDiscExperiments {
 		+ "}"
 		+ "SELECT ?z FROM NAMED <http://db.ing.puc.cl/temp2> "
 		+ "WHERE {GRAPH <http://db.ing.puc.cl/temp2> {?z <http://relationship.com/lahice> <http://relationship.com/wn>}}";		
-		
+		*/
 		/*String queryString = "SELECT *"
 				+"{"
 				+  "<http://ente.com/Kevin_Bacon>  (<http://relationship.com/actedIn> / ^<http://relationship.com/actedIn>)*  ?z"
@@ -130,24 +128,28 @@ public class ProvDiscExperiments {
 
 				
 		/*String queryString = "WITH RECURSIVE http://db.ing.puc.cl/temp AS"
-				+ "{"
-				+ "CONSTRUCT {<http://data.linkedmdb.org/resource/actor/29539> <http://relationship.com/collab> ?act} "
-				+ "FROM NAMED <http://db.ing.puc.cl/temp> "
-				+ "FROM <"+Quad.defaultGraphIRI+"> "
-				+ "WHERE "
-				+ "{"
-				+ "{?mov <http://data.linkedmdb.org/resource/movie/actor> <http://data.linkedmdb.org/resource/actor/29539> . ?mov <http://data.linkedmdb.org/resource/movie/actor> ?act . ?mov <http://data.linkedmdb.org/resource/movie/director> ?dir . ?dir <http://data.linkedmdb.org/resource/movie/director_name> ?x . ?y <http://data.linkedmdb.org/resource/movie/actor_name> ?x} "
-				+ "UNION "
-				+ "{{?mov <http://data.linkedmdb.org/resource/movie/director> ?dir} . {?dir <http://data.linkedmdb.org/resource/movie/director_name> ?x} . {?y <http://data.linkedmdb.org/resource/movie/actor_name> ?x} . {?mov <http://data.linkedmdb.org/resource/movie/actor> ?act1} . {?mov <http://data.linkedmdb.org/resource/movie/actor> ?act} . GRAPH <http://db.ing.puc.cl/temp> {<http://data.linkedmdb.org/resource/actor/29539> <http://relationship.com/collab> ?act1}} "
-				+ "}"
-				+ "}"
-				+ "SELECT ?z FROM NAMED <http://db.ing.puc.cl/temp> "
-				+ "WHERE {GRAPH <http://db.ing.puc.cl/temp> {<http://data.linkedmdb.org/resource/actor/29539> <http://relationship.com/collab> ?z}}";
-		 */
+		+ "{"
+		+ "CONSTRUCT {<http://data.linkedmdb.org/resource/actor/29539> <http://relationship.com/collab> ?act} "
+		+ "FROM NAMED <http://db.ing.puc.cl/temp> "
+		+ "FROM <"+Quad.defaultGraphIRI+"> "
+		+ "WHERE "
+		+ "{"
+			+ "{?mov <http://data.linkedmdb.org/resource/movie/actor> <http://data.linkedmdb.org/resource/actor/29539> . ?mov <http://data.linkedmdb.org/resource/movie/actor> ?act} "
+			+ "UNION "
+			+ "{{?mov <http://data.linkedmdb.org/resource/movie/actor> ?act1} . {?mov <http://data.linkedmdb.org/resource/movie/actor> ?act} . GRAPH <http://db.ing.puc.cl/temp> {<http://data.linkedmdb.org/resource/actor/29539> <http://relationship.com/collab> ?act1}} "
+		+ "}"
+	+ "}"
+	+ "SELECT ?z FROM NAMED <http://db.ing.puc.cl/temp> "
+	+ "WHERE {GRAPH <http://db.ing.puc.cl/temp> {<http://data.linkedmdb.org/resource/actor/29539> <http://relationship.com/collab> ?z}}";
+	*/
 		
 		
-		//String queryString = "CONSTRUCT {?x ?y ?z} WHERE {?x ?y ?z}";
+		//String queryString = "SELECT ?x ?y ?z WHERE {?x <http://relationship.com/RealizaCurso> ?y . ?y <http://relationship.com/PerteneceA> <http://entity.com/DCC>}";
+		/*String queryString = "SELECT ?x ?y ?z WHERE {?x <http://relationship.com/RealizaCurso> ?y " + 
+							". OPTIONAL {?x <http://relationship.com/Mail> ?z}}";
 		
+		*/
+		String queryString = "SELECT ?x ?y ?z WHERE {{?x <http://relationship.com/RealizaCurso> <http://entity.com/Discretas>} UNION {?x <http://relationship.com/EsAyudanteDe> <http://entity.com/Discretas>}}";
 		
 		
 		Query query = QueryFactory.create(queryString);
@@ -181,7 +183,7 @@ public class ProvDiscExperiments {
                 // Check the type of the result value
 
                 //Uncomment to watch results
-                //System.out.println(x+"|"+y+"|"+z) ;
+                System.out.println(x+" | "+y+" | "+z) ;
                 triples++;
                 
 				

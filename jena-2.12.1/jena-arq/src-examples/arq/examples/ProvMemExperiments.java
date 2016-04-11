@@ -27,7 +27,7 @@ public class ProvMemExperiments {
 	public static void main(String[] args) throws AddDeniedException, IOException {
 		// TODO Auto-generated method stub
 
-		BufferedReader br = new BufferedReader(new FileReader("/path/to/provenance/txt"));
+		BufferedReader br = new BufferedReader(new FileReader("/Users/adriansotosuarez/Desktop/testProv.txt"));
 
 		Graph g = GraphFactory.createDefaultGraph();
 		String sCurrentLine;
@@ -70,27 +70,30 @@ public class ProvMemExperiments {
 			+ "WHERE {GRAPH <http://db.ing.puc.cl/temp> {?x ?y ?z}}";*/
 		
 		String queryString = "WITH RECURSIVE http://db.ing.puc.cl/temp1 AS"
-				+ "{"
-				+ "CONSTRUCT {?x ?g ?y} "
-					+ "WHERE "
-						+ "{?x <http://relationship.com/wasRevisionOf> ?y . "
-						+ "?x <http://relationship.com/wasGeneratedBy> ?q . "
-						+ "?q <http://relationship.com/wasAssociatedWith> ?g}"
-				+ "}"
-				+ "WITH RECURSIVE http://db.ing.puc.cl/temp2 AS"
-				+ "{"
-					+ "CONSTRUCT {?x ?g ?z} "
-					+ "FROM NAMED <http://db.ing.puc.cl/temp1> "
-					+ "FROM NAMED <http://db.ing.puc.cl/temp2> "
-					+ "WHERE "
-					+ "{"
-						+ "{GRAPH <http://db.ing.puc.cl/temp1> {?x ?g ?z}} "
-						+ "UNION "
-						+ "{GRAPH <http://db.ing.puc.cl/temp1> {?x ?g ?y} . GRAPH <http://db.ing.puc.cl/temp2> {?y ?g ?z}} "
-					+ "}"
-				+ "}"
-				+ "SELECT ?x ?y ?z FROM NAMED <http://db.ing.puc.cl/temp2> "
-				+ "WHERE {GRAPH <http://db.ing.puc.cl/temp2> {?x ?y ?z}}";
+                + " {"
+                + " CONSTRUCT {?newversion ?user ?oldversion}"
+                    + " WHERE "
+                        + "{?newversion <http://relationship.com/wasRevisionOf> ?oldversion . "
+                        + "?newversion <http://relationship.com/wasGeneratedBy> ?edit . "
+                        + "?edit <http://relationship.com/used> ?oldversion . "
+                        + "?edit <http://relationship.com/wasAssociatedWith> ?user}"
+                + "}"
+                + " WITH RECURSIVE http://db.ing.puc.cl/temp2 AS"
+                + " {"
+                    + "CONSTRUCT {?newversion ?user ?oldversion . ?intversion ?user2 ?oldversion} "
+                    + "FROM NAMED <http://db.ing.puc.cl/temp1> "
+                    + "FROM NAMED <http://db.ing.puc.cl/temp2> "
+                    + "WHERE "
+                    + "{"
+                        + "{GRAPH <http://db.ing.puc.cl/temp1> {?newversion ?user ?oldversion}} "
+                        + "UNION "
+                        + " {GRAPH <http://db.ing.puc.cl/temp2> {?newversion ?user ?intversion} ."
+                        + " GRAPH <http://db.ing.puc.cl/temp1> {?intversion ?user2 ?oldversion}}  "
+                        + " FILTER (?user != ?user2) "
+                    + "}"
+                + "}"
+                + "SELECT ?intversion ?user2 ?oldversion FROM NAMED <http://db.ing.puc.cl/temp2> "
+                + "WHERE {GRAPH <http://db.ing.puc.cl/temp2> {?intversion ?user2 ?oldversion}}";  
 		
 		//String queryString = "SELECT ?x ?y ?z  WHERE {  { ?x <http://relationship.com/wasRevisionOf> ?z } UNION  {    { ?x <http://relationship.com/wasRevisionOf> ?w1 . ?w1  <http://relationship.com/wasRevisionOf> ?z }    UNION  {    {  ?x <http://relationship.com/wasRevisionOf> ?w1 .  ?w1 <http://relationship.com/wasRevisionOf> ?w2 .  ?w2 <http://relationship.com/wasRevisionOf> ?z  }  UNION  {{  ?x <http://relationship.com/wasRevisionOf> ?w1 .  ?w1 <http://relationship.com/wasRevisionOf> ?w2 .  ?w2 <http://relationship.com/wasRevisionOf> ?w3 .  ?w3 <http://relationship.com/wasRevisionOf> ?z  }  UNION  {{  ?x <http://relationship.com/wasRevisionOf> ?w1 .  ?w1 <http://relationship.com/wasRevisionOf> ?w2 .  ?w2 <http://relationship.com/wasRevisionOf> ?w3 .  ?w3 <http://relationship.com/wasRevisionOf> ?w4 .  ?w4 <http://relationship.com/wasRevisionOf> ?z  }  UNION  {{  ?x <http://relationship.com/wasRevisionOf> ?w1 .  ?w1 <http://relationship.com/wasRevisionOf> ?w2 .  ?w2 <http://relationship.com/wasRevisionOf> ?w3 .  ?w3 <http://relationship.com/wasRevisionOf> ?w4 .  ?w4 <http://relationship.com/wasRevisionOf> ?w5 .  ?w5 <http://relationship.com/wasRevisionOf> ?z  }  UNION  {  ?x <http://relationship.com/wasRevisionOf> ?w1 .  ?w1 <http://relationship.com/wasRevisionOf> ?w2 .  ?w2 <http://relationship.com/wasRevisionOf> ?w3 .  ?w3 <http://relationship.com/wasRevisionOf> ?w4 .  ?w4 <http://relationship.com/wasRevisionOf> ?w5 .  ?w5 <http://relationship.com/wasRevisionOf> ?w6 .  ?w6 <http://relationship.com/wasRevisionOf> ?z  }}}}}}  } ";
 		
@@ -103,6 +106,7 @@ public class ProvMemExperiments {
 		+"{"
 		+  "?x  (<http://relationship.com/wasGeneratedBy>)*  ?z"
 		+"}";*/
+		
 		
 		Query query = QueryFactory.create(queryString);
 		Dataset ds = DatasetFactory.create(dsg);
@@ -123,15 +127,15 @@ public class ProvMemExperiments {
                 QuerySolution rb = rs.nextSolution() ;
                 
                 // Get title - variable names do not include the '?' (or '$')
-                RDFNode x = rb.get("x") ;
-                RDFNode y = rb.get("y") ;
-                RDFNode z = rb.get("z") ;
+                RDFNode x = rb.get("intversion") ;
+                RDFNode y = rb.get("user2") ;
+                RDFNode z = rb.get("oldversion") ;
                 
                 
                 // Check the type of the result value
 
                 
-                //System.out.println(x+"|"+y+"|"+z) ;
+                System.out.println(x+"|"+y+"|"+z) ;
                 triples++;
                 
 				

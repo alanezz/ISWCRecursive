@@ -118,6 +118,7 @@ public class RecursiveNode {
 	
 	public static void execQueryWithoutUnion(Dataset ds, Query recursiveQuery, String recursiveURI)
 	{
+		System.out.println(recursiveQuery);
 		int countPrev = 0;
 		int countNow = 0;
 		Model workingGraph = ModelFactory.createDefaultModel();
@@ -169,6 +170,7 @@ public class RecursiveNode {
 
 	public static void execQueryWithoutUnionOpt(Dataset ds, Query recursiveQuery, String recursiveURI)
 	{
+		System.out.println(recursiveQuery);
 		Query[] laQuery = parseOpt(recursiveQuery);
 		
 		//DEBUG
@@ -299,7 +301,7 @@ public class RecursiveNode {
 		if(laQuery.length==1)
 		{
 			
-			DatasetGraph dsgRecursive =TDBFactory.createDatasetGraph("/path/to/recursive/folder");
+			DatasetGraph dsgRecursive =TDBFactory.createDatasetGraph("/Users/adriansotosuarez/Desktop/Rec");
 			if(dsgRecursive.containsGraph(NodeFactory.createURI("http://modelo.com/recursivo")))
 			{
 				dsgRecursive.removeGraph(NodeFactory.createURI("http://modelo.com/recursivo"));
@@ -340,7 +342,7 @@ public class RecursiveNode {
 		}
 		else
 		{
-			DatasetGraph dsgRecursive =TDBFactory.createDatasetGraph("/path/to/recursive/folder");
+			DatasetGraph dsgRecursive =TDBFactory.createDatasetGraph("/Users/adriansotosuarez/Desktop/Rec");
 			if(dsgRecursive.containsGraph(NodeFactory.createURI("http://modelo.com/recursivo")))
 			{
 				dsgRecursive.removeGraph(NodeFactory.createURI("http://modelo.com/recursivo"));
@@ -700,12 +702,14 @@ public class RecursiveNode {
 		String[] splitQuery = s.split("WHERE");
 		String preQuery = splitQuery[0].trim();
 		String whereQuery = splitQuery[1].trim();
+		System.out.println(whereQuery);
 		whereQuery = whereQuery.substring(1,whereQuery.length()-1);
 		
 		if(!(whereQuery.contains("UNION")))
 		{
 			Query[] retQuery = new Query[1];
 			retQuery[0] = inQuery;
+
 			return retQuery;
 		}
 		else
@@ -714,12 +718,13 @@ public class RecursiveNode {
 			String baseQuery = recursiveConstruct[0].trim();
 			String recursiveStepQuery = recursiveConstruct[1].trim();
 			String qs1 = preQuery +" WHERE "+baseQuery;
-			String qs2 = preQuery +" WHERE "+recursiveStepQuery;
+			String qs2 = preQuery +" WHERE {"+recursiveStepQuery+"}";
 			Query q1 = QueryFactory.create(qs1);
 			Query q2 = QueryFactory.create(qs2);
 			Query[] retQuery = new Query[2];
 			retQuery[0] = q1;
 			retQuery[1] = q2;
+
 			return retQuery;
 		}
 		

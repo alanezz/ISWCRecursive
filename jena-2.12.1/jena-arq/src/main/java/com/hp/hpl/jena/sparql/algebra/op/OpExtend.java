@@ -42,6 +42,7 @@ public class OpExtend extends OpExtendAssign {
      * of OpExtend.
      */ 
     static public Op extend(Op op, Var var, Expr expr) {
+    	System.out.println("HOLI");
         if ( !(op instanceof OpExtend) )
             return create(op, var, expr) ;
 
@@ -58,6 +59,8 @@ public class OpExtend extends OpExtendAssign {
      * of OpExtend.
      */ 
     static public Op extend(Op op, VarExprList exprs) {
+    	System.out.println("HOLI");
+
         if ( !(op instanceof OpExtend) )
             return create(op, exprs) ;
 
@@ -73,11 +76,15 @@ public class OpExtend extends OpExtendAssign {
 
     /** Make a OpExtend - this does not aggregate (extend .. (extend ...)) */
     public static OpExtend create(Op op, VarExprList exprs) {
+    	System.out.println("HOLI");
+
         return new OpExtend(op, exprs) ;
     }
 
     /** Make a OpExtend - this does not aggregate (extend .. (extend ...)) */
     public static Op create(Op op, Var var, Expr expr) {
+    	System.out.println("HOLI");
+
         VarExprList x = new VarExprList() ;
         x.add(var, expr) ;
         return new OpExtend(op, x) ;

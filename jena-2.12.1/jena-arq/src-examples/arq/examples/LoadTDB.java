@@ -48,7 +48,7 @@ public class LoadTDB {
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
 		
-		String directory = "/path/to/tdb/empty/folder";
+		String directory = "/Users/adriansotosuarez/Desktop/Bind";
 		Dataset dataset = TDBFactory.createDataset(directory);
 		Model tdb = dataset.getDefaultModel();
 	
@@ -56,8 +56,8 @@ public class LoadTDB {
 		// assume we want the default model, or we could get a named model here
 
 		// read the input file - only needs to be done once
-		String source = "/path/to/nt/file";
-		FileManager.get().readModel( tdb, source, "NT" );
+		String source = "/Users/adriansotosuarez/Desktop/bindex.ttl";
+		FileManager.get().readModel( tdb, source, "TTL" );
 		
 		
         dataset.close();

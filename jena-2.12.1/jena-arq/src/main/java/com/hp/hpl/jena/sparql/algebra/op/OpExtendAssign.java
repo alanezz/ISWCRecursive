@@ -33,11 +33,16 @@ public abstract class OpExtendAssign extends Op1 {
 
     protected OpExtendAssign(Op subOp, VarExprList exprs) {
         super(subOp) ;
+        System.out.println("HOLI2");
+        System.out.println(subOp);
+        System.out.println(exprs);
         assignments = exprs ;
+        System.out.println("Holi");
     }
 
     final
     protected void add(Var var, Expr expr) {
+    	
         assignments.add(var, expr) ;
     }
 
